@@ -76,6 +76,11 @@ int WINAPI WinMain( HINSTANCE hInstance,
                     LPSTR     lpCmdLine,
                     int       nCmdShow )
 {
+	//Show the Console
+	AllocConsole(); 
+  freopen("conin$","r",stdin);
+  freopen("conout$","w",stdout);
+  freopen("conout$","w",stderr);
 
 	// local
     WNDCLASSEX	winClass;

@@ -23,16 +23,14 @@
 #endif // _MSC_VER > 1000
 
 
-
-
 // ---------- include ----------
 
 #include <windows.h>
 #include <stdio.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-
-
+#include "../header/L_System.h"
+#include "../header/vector.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -61,6 +59,7 @@ class rtvsD3dApp
 {
 
 	// ---- properties ----
+	L_System LSystem;
 
 	DWORD	_id;
 
@@ -97,7 +96,7 @@ public:
 
 	// update vertex buffer
 	DWORD updateVertexBuffer (Vertex, Vertex);
-
+	
 	// gui
 	bool updateKeyboard();
 

@@ -20,6 +20,9 @@
     <ClCompile Include="source\rtvsD3dWinLite.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\vector.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="icons\icon_16.ico">
@@ -37,6 +40,12 @@
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="header\rtvsD3dWinLite.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\L_System.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Maths &amp; GFX\2012_11_16_RTVS_Lite_Vectors\header\vector.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>

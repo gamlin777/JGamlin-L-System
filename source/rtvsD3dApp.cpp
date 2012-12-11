@@ -22,7 +22,6 @@
 
 
 
-
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -44,7 +43,7 @@ rtvsD3dApp::rtvsD3dApp (int id)
 {
 
 	// initialise
-    ZeroMemory( this, sizeof(rtvsD3dApp) );
+    ZeroMemory( this, sizeof(rtvsD3dApp) ); // Comment out later
 
 	// store id
 	_id = id;
@@ -53,9 +52,6 @@ rtvsD3dApp::rtvsD3dApp (int id)
 	currentKeyClicked = 1;
 
 }
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -172,7 +168,7 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
     pd3dDevice->Clear( 0,
 		NULL,
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_COLORVALUE(0.0f,0.53f,0.0f,1.0f),
+		D3DCOLOR_COLORVALUE(1.0f,1.0f,1.0f,1.0f),
 		1.0f,
 		0);
 
@@ -222,31 +218,41 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 
 		// select angle of increment from a look up table
 		// where the array index == current key clicked
-		float angle[8] = { 60, 30, 20, 15, 10, 5, 2, 1 };
-		int angIncr = (int)angle[currentKeyClicked];
+
 
 		// draw a line rotating around the z axis
 		Vertex s, e;
 		float rdn = 3.141592f / 180.0f;
-		for (int a=0; a<360; a+=angIncr)
-		{
+		
+		
 			// update start and end vertex
-			float ang = float(a)*rdn;
-			float cosAng = cos(ang);
-			float sinAng = sin(ang);
-			s.z = 0;
-			s.x = 2  * cosAng;
-			s.y = 2  * sinAng;
-			e.z = 0;
-			e.x = 8 * cosAng;
-			e.y = 8 * sinAng;
+			int iterations = 1;
+			float length = 4.0f;
+			float angle = 0.0f;
+			float cos_angle = cos(angle);
+			float sin_angle = sin(angle);
+			Vector3D direction = Vector3D(sin_angle*length, cos_angle*length,0);
+			Vector3D origin = Vector3D(0.0f,0.0f,0.0f);
+			Vector3D currentpos = Vector3D(0,0,0);
 
+			if (iterations == 1){
+				s.x = origin.x;
+				s.y = origin.y;
+				s.z = origin.z;
+			
+				e.x = origin.x + direction.x;
+				e.y = origin.y + direction.y;
+				e.z = origin.z + direction.z;
+
+				currentpos.x = e.x;
+				currentpos.y = e.y;
+				currentpos.z = e.z;
+			}
 			// update vertex buffer
 			updateVertexBuffer(s, e);
 
 			// draw a single line
 			pd3dDevice->DrawPrimitive( D3DPT_LINELIST, 0, 1 );
-		}
 	}
 
 
@@ -275,9 +281,9 @@ bool rtvsD3dApp::setup ()
 
     // setup a material for the lines
     ZeroMemory( &lineMtrl, sizeof(D3DMATERIAL9) );
-	lineMtrl.Emissive.r = 1.0f;
-	lineMtrl.Emissive.g = 1.0f;
-	lineMtrl.Emissive.b = 1.0f;
+	lineMtrl.Emissive.r = 0.0f;
+	lineMtrl.Emissive.g = 0.0f;
+	lineMtrl.Emissive.b = 0.0f;
 
     // setup directional sun light
 	ZeroMemory( &sunLight, sizeof(D3DLIGHT9) );
