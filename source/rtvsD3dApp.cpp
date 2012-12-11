@@ -47,7 +47,7 @@ rtvsD3dApp::rtvsD3dApp (int id)
 
 	// store id
 	_id = id;
-
+	LSystem = L_System();
 	// key clicked
 	currentKeyClicked = 1;
 
@@ -224,43 +224,66 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 		Vertex s, e;
 		float rdn = 3.141592f / 180.0f;
 		
-		
+			LSystem = L_System();
 			// update start and end vertex
-			int iterations = 1;
-			float length = 4.0f;
-			float angle = 0.0f;
-			float cos_angle = cos(angle);
-			float sin_angle = sin(angle);
+			string rule = "FF+F-F";
+			float length = LSystem.getLength();
+			float angle = rdn*90.0f;
+			float current_angle = 0.0f;
+			
+			float sin_angle = sin(current_angle);
+			float cos_angle = cos(current_angle);
 			Vector3D direction = Vector3D(sin_angle*length, cos_angle*length,0);
 			Vector3D origin = Vector3D(0.0f,0.0f,0.0f);
 			Vector3D currentpos = Vector3D(0,0,0);
 
-			if (iterations == 1){
-				s.x = origin.x;
-				s.y = origin.y;
-				s.z = origin.z;
 			
-				e.x = origin.x + direction.x;
-				e.y = origin.y + direction.y;
-				e.z = origin.z + direction.z;
+			printf("Rule Length %d", rule.length());
+			int size = rule.length();
+			for (int i = 0; i < size; i++){
+				if (rule[i] == 'F') {
+					//if (i == 0) {	
+					s.x = currentpos.x;
+					s.y = currentpos.y;
+					s.z = currentpos.z;
 
-				currentpos.x = e.x;
-				currentpos.y = e.y;
-				currentpos.z = e.z;
+					e.x = s.x + direction.x;
+					e.y = s.y + direction.y;
+					e.z = s.z + direction.z;
+
+					currentpos.x = e.x;
+					currentpos.y = e.y;
+					currentpos.z = e.z;
+					updateVertexBuffer(s, e);
+				} else if (rule[i] == '+'){
+					current_angle += angle;
+					cos_angle = cos(current_angle);
+					sin_angle = sin(current_angle);
+					direction.x = sin_angle*length;
+					direction.y = cos_angle*length;
+				} else if (rule[i] =='-'){
+					current_angle += -angle;
+					cos_angle = cos(current_angle);
+					sin_angle = sin(current_angle);
+					direction.x = sin_angle*length;
+					direction.y = cos_angle*length;
+				}
+
+					pd3dDevice->DrawPrimitive( D3DPT_LINELIST, 0, 1 );
 			}
 			// update vertex buffer
-			updateVertexBuffer(s, e);
+			//updateVertexBuffer(s, e);
 
 			// draw a single line
-			pd3dDevice->DrawPrimitive( D3DPT_LINELIST, 0, 1 );
-	}
+	
+	} // if lines
 
 
 
 	// ok
 	return true;
 
-}
+} // Display
 
 
 

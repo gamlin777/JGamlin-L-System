@@ -51,7 +51,7 @@ class Vector3D {
 	
 	*/
 
-	double x, y, z;
+	float x, y, z;
 
 	/*
 	
@@ -67,7 +67,7 @@ class Vector3D {
 		x = y = z = 0;
 	}
 
-	Vector3D(double a, double b, double c) {
+	Vector3D(float a, float b, float c) {
 		x = a;
 		y = b;
 		z = c;

@@ -17,9 +17,12 @@ public:
 	char FORWARD_NO_DRAW_X;
 	char SYMBOL_TURN_LEFT;
 	char SYMBOL_TURN_RIGHT;
+	char SYMBOL_POP;
+	char SYMBOL_PUSH;
 	
-float length() { return DEFAULT_LENGTH; }
-	
+float getLength() { return DEFAULT_LENGTH; }
+float getTurnValue() { return TURN_VALUE; }
+
 	L_System(){
 		DEFAULT_LENGTH = 4.0f;
 		DEFAULT_ITERATIONS = 3;
@@ -30,6 +33,8 @@ float length() { return DEFAULT_LENGTH; }
 		FORWARD_NO_DRAW_X = 'x';
 		SYMBOL_TURN_LEFT = '+';
 		SYMBOL_TURN_RIGHT = '-';
+		SYMBOL_POP = ']';
+		SYMBOL_PUSH = '[';
 
 		string rule;
 	}
