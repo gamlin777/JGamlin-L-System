@@ -19,7 +19,9 @@
 // ---------- include ----------
 
 #include "../header/rtvsD3dApp.h"
-
+#include <vector>
+#include <stack>
+using namespace std;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -224,9 +226,11 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 		Vertex s, e;
 		float rdn = 3.141592f / 180.0f;
 		
+		stack <Vector3D> mainpos;
+		
 			LSystem = L_System();
 			// update start and end vertex
-			string rule = "FF+F-F";
+			string rule = "F[+FF]-F+F-F";
 			float length = LSystem.getLength();
 			float angle = rdn*90.0f;
 			float current_angle = 0.0f;
@@ -234,11 +238,9 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 			float sin_angle = sin(current_angle);
 			float cos_angle = cos(current_angle);
 			Vector3D direction = Vector3D(sin_angle*length, cos_angle*length,0);
-			Vector3D origin = Vector3D(0.0f,0.0f,0.0f);
 			Vector3D currentpos = Vector3D(0,0,0);
 
-			
-			printf("Rule Length %d", rule.length());
+			// Production Rules
 			int size = rule.length();
 			for (int i = 0; i < size; i++){
 				if (rule[i] == 'F') {
@@ -263,6 +265,24 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 					direction.y = cos_angle*length;
 				} else if (rule[i] =='-'){
 					current_angle += -angle;
+					cos_angle = cos(current_angle);
+					sin_angle = sin(current_angle);
+					direction.x = sin_angle*length;
+					direction.y = cos_angle*length;
+				}
+				else if (rule[i] == '['){
+					mainpos.push(direction);
+					mainpos.push(currentpos);
+					cos_angle = cos(current_angle);
+					sin_angle = sin(current_angle);
+					direction.x = sin_angle*length;
+					direction.y = cos_angle*length;
+				}
+				else if (rule[i] == ']'){
+					currentpos = mainpos.top();
+					mainpos.pop();
+					direction = mainpos.top();
+					mainpos.pop();
 					cos_angle = cos(current_angle);
 					sin_angle = sin(current_angle);
 					direction.x = sin_angle*length;

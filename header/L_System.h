@@ -24,7 +24,7 @@ float getLength() { return DEFAULT_LENGTH; }
 float getTurnValue() { return TURN_VALUE; }
 
 	L_System(){
-		DEFAULT_LENGTH = 4.0f;
+		DEFAULT_LENGTH = 2.0f;
 		DEFAULT_ITERATIONS = 3;
 		TURN_VALUE = 90.0f;
 		FORWARD_DRAW_F = 'F';
