@@ -227,12 +227,13 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 		float rdn = 3.141592f / 180.0f;
 		
 		stack <Vector3D> mainpos;
-		
+		stack <float> anglepos;
+
 			LSystem = L_System();
 			// update start and end vertex
-			string rule = "F[+FF]-F+F-F";
+			string rule = "F[+F]F[-F]F";
 			float length = LSystem.getLength();
-			float angle = rdn*90.0f;
+			float angle = rdn*LSystem.getTurnValue();
 			float current_angle = 0.0f;
 			
 			float sin_angle = sin(current_angle);
@@ -273,20 +274,15 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 				else if (rule[i] == '['){
 					mainpos.push(direction);
 					mainpos.push(currentpos);
-					cos_angle = cos(current_angle);
-					sin_angle = sin(current_angle);
-					direction.x = sin_angle*length;
-					direction.y = cos_angle*length;
+					anglepos.push(current_angle);
 				}
 				else if (rule[i] == ']'){
+					current_angle = anglepos.top();
+					anglepos.pop();
 					currentpos = mainpos.top();
 					mainpos.pop();
 					direction = mainpos.top();
 					mainpos.pop();
-					cos_angle = cos(current_angle);
-					sin_angle = sin(current_angle);
-					direction.x = sin_angle*length;
-					direction.y = cos_angle*length;
 				}
 
 					pd3dDevice->DrawPrimitive( D3DPT_LINELIST, 0, 1 );

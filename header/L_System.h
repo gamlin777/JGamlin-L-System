@@ -10,7 +10,8 @@ public:
 	float DEFAULT_LENGTH;
 	int DEFAULT_ITERATIONS;
 	float TURN_VALUE;
-
+	string RULE;
+	char AXIOM;
 	char FORWARD_DRAW_F;
 	char FORWARD_DRAW_X;
 	char FORWARD_NO_DRAW_F;
@@ -22,11 +23,14 @@ public:
 	
 float getLength() { return DEFAULT_LENGTH; }
 float getTurnValue() { return TURN_VALUE; }
+int getIterations() { return DEFAULT_ITERATIONS; }
+string getRule() { return RULE; }
 
 	L_System(){
 		DEFAULT_LENGTH = 2.0f;
 		DEFAULT_ITERATIONS = 3;
-		TURN_VALUE = 90.0f;
+		TURN_VALUE = 25.7f;
+		RULE = "F[+F]F[-F]F";
 		FORWARD_DRAW_F = 'F';
 		FORWARD_DRAW_X = 'X';
 		FORWARD_NO_DRAW_F = 'f';
