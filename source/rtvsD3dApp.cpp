@@ -22,6 +22,7 @@
 #include <vector>
 #include <stack>
 using namespace std;
+#include <iostream>
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -199,7 +200,7 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 
 
 	// locate
-	D3DXMatrixTranslation( &matTranslation, 0, 0, 20 );
+	D3DXMatrixTranslation( &matTranslation, 0, 0, 20 ); // use to move the L-System and zoom
 	matWorld = matRotation * matTranslation;
 	pd3dDevice->SetTransform( D3DTS_WORLD, &matWorld );
 
@@ -229,72 +230,110 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 		stack <Vector3D> mainpos;
 		stack <float> anglepos;
 
+		struct Rule
+		{
+			char from;
+			string to;
+		};
+
+		Rule r;
+		r.from = 'F';
+		r.to = "F[+F]F[-F]F";
+
+		std::vector<Rule> rList;
+		rList.push_back(r);
+
 			LSystem = L_System();
 			// update start and end vertex
-			string rule = "F[+F]F[-F]F";
+
 			float length = LSystem.getLength();
 			float angle = rdn*LSystem.getTurnValue();
-			float current_angle = 0.0f;
+			float current_angle = 0.0f; // for the initial straight line
+			string axiom = LSystem.getAxiom();
+			string rule = axiom; // initialized as axiom, which is 'F'
 			
+
 			float sin_angle = sin(current_angle);
 			float cos_angle = cos(current_angle);
 			Vector3D direction = Vector3D(sin_angle*length, cos_angle*length,0);
 			Vector3D currentpos = Vector3D(0,0,0);
-
-			// Production Rules
+			int max_iterations = LSystem.getIterations();
+			int current_iteration = 0;
 			int size = rule.length();
-			for (int i = 0; i < size; i++){
-				if (rule[i] == 'F') {
-					//if (i == 0) {	
-					s.x = currentpos.x;
-					s.y = currentpos.y;
-					s.z = currentpos.z;
+			string new_rule = LSystem.getRule();
 
-					e.x = s.x + direction.x;
-					e.y = s.y + direction.y;
-					e.z = s.z + direction.z;
 
-					currentpos.x = e.x;
-					currentpos.y = e.y;
-					currentpos.z = e.z;
-					updateVertexBuffer(s, e);
-				} else if (rule[i] == '+'){
-					current_angle += angle;
-					cos_angle = cos(current_angle);
-					sin_angle = sin(current_angle);
-					direction.x = sin_angle*length;
-					direction.y = cos_angle*length;
-				} else if (rule[i] =='-'){
-					current_angle += -angle;
-					cos_angle = cos(current_angle);
-					sin_angle = sin(current_angle);
-					direction.x = sin_angle*length;
-					direction.y = cos_angle*length;
+			if (currentKeyClicked == 1){
+				current_iteration = 1;
+			}
+			if (currentKeyClicked == 2){
+				current_iteration = 2;
+			}
+			if (currentKeyClicked == 3){
+				current_iteration = 3;
+			}
+			if (currentKeyClicked == 4){
+				current_iteration = 4;
+			}
+	
+			size = rule.length();
+			// Production Rules
+			string str = axiom;
+		for (current_iteration = 0; current_iteration < max_iterations; ++current_iteration){
+			for (int i = str.length() - 1; i >= 0; --i){
+				for (int j = 0; j < rList.size(); j++){
+					if (str[i] == rList[j].from){
+						str.replace(i, 1, rList[j].to);
+					}
 				}
-				else if (rule[i] == '['){
-					mainpos.push(direction);
-					mainpos.push(currentpos);
-					anglepos.push(current_angle);
-				}
-				else if (rule[i] == ']'){
-					current_angle = anglepos.top();
-					anglepos.pop();
-					currentpos = mainpos.top();
-					mainpos.pop();
-					direction = mainpos.top();
-					mainpos.pop();
-				}
+			}
+		}
+		for (int i = 0; i < str.length(); i++){
+			if (str[i] == 'F'){
+						s.x = currentpos.x;
+						s.y = currentpos.y;
+						s.z = currentpos.z;
+
+						e.x = s.x + direction.x;
+						e.y = s.y + direction.y;
+						e.z = s.z + direction.z;
+
+						currentpos.x = e.x;
+						currentpos.y = e.y;
+						currentpos.z = e.z;
+						updateVertexBuffer(s, e);
+					} else if (str[i] == '+'){
+						current_angle += -angle;
+						cos_angle = cos(current_angle);
+						sin_angle = sin(current_angle);
+						direction.x = sin_angle*length;
+						direction.y = cos_angle*length;
+					} else if (str[i] =='-'){
+						current_angle += angle;
+						cos_angle = cos(current_angle);
+						sin_angle = sin(current_angle);
+						direction.x = sin_angle*length;
+						direction.y = cos_angle*length;
+					} else if (str[i] == '['){
+						mainpos.push(direction);
+						mainpos.push(currentpos);
+						anglepos.push(current_angle);
+					} else if (str[i] == ']'){
+						current_angle = anglepos.top();
+						anglepos.pop();
+						currentpos = mainpos.top();
+						mainpos.pop();
+						direction = mainpos.top();
+						mainpos.pop();
+					}
 
 					pd3dDevice->DrawPrimitive( D3DPT_LINELIST, 0, 1 );
-			}
+				}
 			// update vertex buffer
-			//updateVertexBuffer(s, e);
+			// updateVertexBuffer(s, e);
 
-			// draw a single line
-	
+				
 	} // if lines
-
-
 
 	// ok
 	return true;
@@ -518,7 +557,10 @@ bool rtvsD3dApp::updateKeyboard ()
 		currentKeyClicked = 7;
 	else if(GetAsyncKeyState('8') & 0x8000f)
 		currentKeyClicked = 8;
-
+	else if (GetAsyncKeyState(0x41) & 0x8000f)
+		currentKeyClicked = 0x41;
+	else if (GetAsyncKeyState('e') & 0x8000f)
+		currentKeyClicked = 'e';			
 	// ok
 	return true;
 }

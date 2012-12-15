@@ -31,6 +31,7 @@
 #include <d3dx9.h>
 #include "../header/L_System.h"
 #include "../header/vector.h"
+#include <list>
 
 ////////////////////////////////////////////////////////////////////////////////
 
