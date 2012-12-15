@@ -235,6 +235,9 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 		string str = axiom;
 		char *c_axiom;
 		c_axiom = &axiom[0];
+		string node = LSystem.getNode();
+		char *c_node;
+		c_node = &node[0];
 		
 		struct Rule
 		{
@@ -243,11 +246,15 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 		};
 
 		Rule r;
+		Rule r2;
 		r.from[0] = *c_axiom;
 		r.to = LSystem.getRule();
+		r2.from[0] = *c_node;
+		r2.to = LSystem.getNodeRule();
 
 		std::vector<Rule> rList;
 		rList.push_back(r);
+		rList.push_back(r2);
 
 			
 			// update start and end vertex
@@ -340,6 +347,19 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 						currentpos.y = e.y;
 						currentpos.z = e.z;
 						updateVertexBuffer(s, e);
+					} else if (str[i] == 'X'){
+						s.x = currentpos.x;
+						s.y = currentpos.y;
+						s.z = currentpos.z;
+
+						e.x = s.x + direction.x;
+						e.y = s.y + direction.y;
+						e.z = s.z + direction.z;
+
+						currentpos.x = e.x;
+						currentpos.y = e.y;
+						currentpos.z = e.z;
+						updateVertexBuffer(s, e);
 					} else if (str[i] == '+'){
 						current_angle += -angle;
 						cos_angle = cos(current_angle);
@@ -367,13 +387,12 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 
 					pd3dDevice->DrawPrimitive( D3DPT_LINELIST, 0, 1 );
 				}
-			// update vertex buffer
+			// pd3dDevice->DrawPrimitive( D3DPT_LINELIST, 0, 1 );
 			// updateVertexBuffer(s, e);
 
 				
 	} // if lines
 
-	// ok
 	return true;
 
 } // Display
