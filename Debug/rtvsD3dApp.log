@@ -1,20 +1,12 @@
-﻿Build started 15/12/2012 15:00:38.
+﻿Build started 15/12/2012 17:07:34.
      1>Project "C:\Users\James\Documents\GitHub\JGamlin-L-System\rtvsD3dApp.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Debug\rtvsD3dApp.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0710 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug/" /Fd".\Debug/vc100.pdb" /FR".\Debug\\" /Gd /TP /analyze- /errorReport:prompt source\rtvsD3dApp.cpp source\rtvsD3dWinLite.cpp
+         c:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0710 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug/" /Fd".\Debug/vc100.pdb" /FR".\Debug\\" /Gd /TP /analyze- /errorReport:prompt source\rtvsD3dApp.cpp
          rtvsD3dApp.cpp
-     1>c:\users\james\documents\github\jgamlin-l-system\source\rtvsd3dapp.cpp(284): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\james\documents\github\jgamlin-l-system\source\rtvsd3dapp.cpp(291): warning C4018: '<' : signed/unsigned mismatch
-         rtvsD3dWinLite.cpp
-     1>c:\users\james\documents\github\jgamlin-l-system\source\rtvsd3dwinlite.cpp(81): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(249) : see declaration of 'freopen'
-     1>c:\users\james\documents\github\jgamlin-l-system\source\rtvsd3dwinlite.cpp(82): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(249) : see declaration of 'freopen'
-     1>c:\users\james\documents\github\jgamlin-l-system\source\rtvsd3dwinlite.cpp(83): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(249) : see declaration of 'freopen'
-         Generating Code...
+     1>c:\users\james\documents\github\jgamlin-l-system\source\rtvsd3dapp.cpp(322): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\james\documents\github\jgamlin-l-system\source\rtvsd3dapp.cpp(329): warning C4018: '<' : signed/unsigned mismatch
        ResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -35,4 +27,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.08
+Time Elapsed 00:00:02.21

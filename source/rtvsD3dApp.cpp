@@ -52,7 +52,7 @@ rtvsD3dApp::rtvsD3dApp (int id)
 	_id = id;
 	LSystem = L_System();
 	// key clicked
-	currentKeyClicked = 1;
+	currentKeyClicked = 0;
 
 }
 
@@ -224,32 +224,37 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 
 
 		// draw a line rotating around the z axis
+		LSystem = L_System();
 		Vertex s, e;
 		float rdn = 3.141592f / 180.0f;
 		
 		stack <Vector3D> mainpos;
 		stack <float> anglepos;
-
+		
+		string axiom = LSystem.getAxiom();
+		string str = axiom;
+		char *c_axiom;
+		c_axiom = &axiom[0];
+		
 		struct Rule
 		{
-			char from;
+			char from[1];
 			string to;
 		};
 
 		Rule r;
-		r.from = 'F';
-		r.to = "F[+F]F[-F]F";
+		r.from[0] = *c_axiom;
+		r.to = LSystem.getRule();
 
 		std::vector<Rule> rList;
 		rList.push_back(r);
 
-			LSystem = L_System();
+			
 			// update start and end vertex
 
 			float length = LSystem.getLength();
 			float angle = rdn*LSystem.getTurnValue();
 			float current_angle = 0.0f; // for the initial straight line
-			string axiom = LSystem.getAxiom();
 			string rule = axiom; // initialized as axiom, which is 'F'
 			
 
@@ -257,32 +262,65 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 			float cos_angle = cos(current_angle);
 			Vector3D direction = Vector3D(sin_angle*length, cos_angle*length,0);
 			Vector3D currentpos = Vector3D(0,0,0);
-			int max_iterations = LSystem.getIterations();
+			int max_iterations = 0;
+			int default_iterations = LSystem.getIterations();
 			int current_iteration = 0;
 			int size = rule.length();
 			string new_rule = LSystem.getRule();
 
-
+			
 			if (currentKeyClicked == 1){
-				current_iteration = 1;
+				if (1 <= default_iterations){
+					max_iterations = 1;
+				}
 			}
 			if (currentKeyClicked == 2){
-				current_iteration = 2;
+				if (2 <= default_iterations){
+					max_iterations = 2;
+				}
 			}
 			if (currentKeyClicked == 3){
-				current_iteration = 3;
+				if (3 <= default_iterations){
+					max_iterations = 3;
+				}
 			}
 			if (currentKeyClicked == 4){
-				current_iteration = 4;
+				if (4 <= default_iterations){
+					max_iterations = 4;
+				}
 			}
-	
+			if (currentKeyClicked == 5){
+				if (5 <= default_iterations){
+					max_iterations = 5;
+				}
+			}
+			if (currentKeyClicked == 6){
+				if (6 <= default_iterations){
+					max_iterations = 6;
+				}
+			}
+			if (currentKeyClicked == 7){
+				if (7 <= default_iterations){
+					max_iterations = 7;
+				}
+			}
+			if (currentKeyClicked == 8){
+				if (8 <= default_iterations){
+					max_iterations = 8;
+				}
+			}
+			if (currentKeyClicked == 9){
+				if (9 <= default_iterations){
+					max_iterations = 9;
+				}
+			}
 			size = rule.length();
 			// Production Rules
-			string str = axiom;
+			
 		for (current_iteration = 0; current_iteration < max_iterations; ++current_iteration){
 			for (int i = str.length() - 1; i >= 0; --i){
 				for (int j = 0; j < rList.size(); j++){
-					if (str[i] == rList[j].from){
+					if (str[i] == *rList[j].from){
 						str.replace(i, 1, rList[j].to);
 					}
 				}
@@ -557,6 +595,10 @@ bool rtvsD3dApp::updateKeyboard ()
 		currentKeyClicked = 7;
 	else if(GetAsyncKeyState('8') & 0x8000f)
 		currentKeyClicked = 8;
+	else if(GetAsyncKeyState('9') & 0x8000f)
+		currentKeyClicked = 9;
+	else if(GetAsyncKeyState('0') & 0x8000f)
+		currentKeyClicked = 0;
 	else if (GetAsyncKeyState(0x41) & 0x8000f)
 		currentKeyClicked = 0x41;
 	else if (GetAsyncKeyState('e') & 0x8000f)
