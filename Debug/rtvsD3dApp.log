@@ -1,4 +1,4 @@
-﻿Build started 16/12/2012 22:27:17.
+﻿Build started 16/12/2012 22:32:19.
      1>Project "C:\Users\James\Documents\GitHub\JGamlin-L-System\rtvsD3dApp.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Debug\rtvsD3dApp.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -33,4 +33,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.40
+Time Elapsed 00:00:02.38

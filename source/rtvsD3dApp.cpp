@@ -342,6 +342,18 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 						currentpos.y = e.y;
 						currentpos.z = e.z;
 						updateVertexBuffer(s, e);
+					} else if (str[i] == 'f'){
+						s.x = currentpos.x;
+						s.y = currentpos.y;
+						s.z = currentpos.z;
+
+						e.x = s.x + direction.x;
+						e.y = s.y + direction.y;
+						e.z = s.z + direction.z;
+
+						currentpos.x = e.x;
+						currentpos.y = e.y;
+						currentpos.z = e.z;
 					} else if (str[i] == 'X'){
 						s.x = currentpos.x;
 						s.y = currentpos.y;
@@ -355,6 +367,18 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 						currentpos.y = e.y;
 						currentpos.z = e.z;
 						updateVertexBuffer(s, e);
+					} else if (str[i] == 'x'){
+						s.x = currentpos.x;
+						s.y = currentpos.y;
+						s.z = currentpos.z;
+
+						e.x = s.x + direction.x;
+						e.y = s.y + direction.y;
+						e.z = s.z + direction.z;
+
+						currentpos.x = e.x;
+						currentpos.y = e.y;
+						currentpos.z = e.z;
 					} else if (str[i] == '+'){
 						current_angle += -angle;
 						cos_angle = cos(current_angle);
