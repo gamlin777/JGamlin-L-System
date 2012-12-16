@@ -90,6 +90,15 @@ public:
 	bool					space_pressed;
 	float					rdn;
 	float					reset_angle;
+	bool					w_pressed;
+	bool					a_pressed;
+	bool					s_pressed;
+	bool					d_pressed;
+	float					ls_transX;
+	float					ls_transY;
+	float					ls_transZ;
+	bool					q_pressed;
+	bool					e_pressed;
 
 	// ---- methods ----
 

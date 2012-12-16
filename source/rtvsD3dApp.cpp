@@ -51,10 +51,14 @@ rtvsD3dApp::rtvsD3dApp (int id)
 	_id = id;
 	LSystem = L_System();
 	// key clicked
-	currentKeyClicked = 0;
-	length = 0.1f;
+	currentKeyClicked = 5;
+	length = 0.06f;
 	rdn = 3.141592f / 180.0f;
 	angle = rdn*LSystem.getTurnValue();
+	ls_transX = 0.0f;
+	ls_transY = 0.0f;
+	ls_transZ = 20.0f;
+	vectorName = "A Simple L-System by James Gamlin\n__________________________________\n              Controls:\nCycle Iterations(Growth)= Number Keys \n      n.b for the Axiom/Origin press Zero\nChange L-System(Plant) = F1 to F6\nMove Around = W,A,S,D\nZoom In/Out = Q/E \nIncrease/Decrease Branch Angle = Shift/Ctrl\nIncrease/Decrease Branch Size = Z/X\nFree Transform(Irreversible) = Mouse\n       Reset = SPACEBAR\n__________________________________";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -172,7 +176,7 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
     pd3dDevice->Clear( 0,
 		NULL,
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_COLORVALUE(1.0f,1.0f,1.0f,1.0f),
+		D3DCOLOR_COLORVALUE(0.0f,0.0f,0.0f,1.0f),
 		1.0f,
 		0);
 
@@ -201,7 +205,7 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 
 
 	// locate
-	D3DXMatrixTranslation( &matTranslation, 0, 0, 20 ); // use to move the L-System and zoom
+	D3DXMatrixTranslation( &matTranslation, ls_transX, ls_transY, ls_transZ ); // use to move the L-System and zoom
 	matWorld = matRotation * matTranslation;
 	pd3dDevice->SetTransform( D3DTS_WORLD, &matWorld );
 
@@ -220,11 +224,6 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 		// update key clicked
 		updateKeyboard();
 
-		// select angle of increment from a look up table
-		// where the array index == current key clicked
-
-
-		// draw a line rotating around the z axis
 		
 		Vertex s, e;
 		reset_angle = LSystem.TURN_VALUE*rdn;
@@ -266,7 +265,7 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 			float sin_angle = sin(current_angle);
 			float cos_angle = cos(current_angle);
 			Vector3D direction = Vector3D(sin_angle*length, cos_angle*length,0);
-			Vector3D currentpos = Vector3D(0,-6,0);
+			Vector3D currentpos = Vector3D(4,-7,0);
 			int max_iterations = LSystem.getIterations();
 			int default_iterations = LSystem.getIterations();
 
@@ -385,7 +384,8 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 				}
 			// pd3dDevice->DrawPrimitive( D3DPT_LINELIST, 0, 1 );
 			// updateVertexBuffer(s, e);
-
+			RECT rect = { 20, 20, 1000, 1000 };
+			pFont->DrawText(0,vectorName,-1,&rect,0,fontCol);
 		
 		//manipulation of the l_system
 		if (z_pressed == true){
@@ -402,6 +402,28 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 		}
 		if (space_pressed == true){
 			angle = reset_angle;
+			ls_transX = 0.0f;
+			ls_transY = 0.0f;
+			ls_transZ = 20.0f;
+			length = 0.06f;
+		}
+		if (w_pressed == true){
+			ls_transY -= 0.1f;
+		}
+		if (s_pressed == true){
+			ls_transY += 0.1f;
+		}
+		if (a_pressed == true){
+			ls_transX += 0.1f;
+		}
+		if (d_pressed == true){
+			ls_transX -= 0.1f;
+		}
+		if (q_pressed == true){
+			ls_transZ -= 0.1f;
+		}
+		if (e_pressed == true){
+			ls_transZ += 0.1f;
 		}
 
 	} // if lines
@@ -429,9 +451,9 @@ bool rtvsD3dApp::setup ()
 
     // setup a material for the lines
     ZeroMemory( &lineMtrl, sizeof(D3DMATERIAL9) );
-	lineMtrl.Emissive.r = 0.0f;
-	lineMtrl.Emissive.g = 0.0f;
-	lineMtrl.Emissive.b = 0.0f;
+	lineMtrl.Emissive.r = 1.0f;
+	lineMtrl.Emissive.g = 1.0f;
+	lineMtrl.Emissive.b = 1.0f;
 
     // setup directional sun light
 	ZeroMemory( &sunLight, sizeof(D3DLIGHT9) );
@@ -506,7 +528,7 @@ bool rtvsD3dApp::setupDX (LPDIRECT3DDEVICE9 pd3dDevice)
 	fontCol = D3DCOLOR_COLORVALUE(1,1,1,1);
 	D3DXCreateFont(
 		pd3dDevice,
-		30,								// height in pixels
+		20,								// height in pixels
 		0,								// width in pixels (0 for default)
 		400,							// thickness, 0-1000 OR FW_THIN (100), FW_NORMAL (400), FW_BOLD (700), FW_HEAVY (900)
 		0,								// number of MipMaps to create. 0 creates a full chain - no scaling use 1
@@ -515,7 +537,7 @@ bool rtvsD3dApp::setupDX (LPDIRECT3DDEVICE9 pd3dDevice)
 		OUT_DEFAULT_PRECIS,				// how precisely the output must match the font
 		ANTIALIASED_QUALITY,			// ANTIALIASED_QUALITY, DEFAULT_QUALITY, DRAFT_QUALITY, and PROOF_QUALITY
 		DEFAULT_PITCH | FF_DONTCARE,	// font pitch 
-		"Arial",						// name of the required font or "" for system best match
+		"Narkisim",					// name of the required font or "" for system best match
 		&pFont);
 
 
@@ -633,7 +655,7 @@ bool rtvsD3dApp::updateKeyboard ()
 		currentKeyClicked = 0;		
 	if (GetAsyncKeyState(0x70) & 0x8000f){ // F1
 		LSystem.load(1);
-	} else if (GetAsyncKeyState(0x71) & 0x8000f){ // F2
+	}else if (GetAsyncKeyState(0x71) & 0x8000f){ // F2
 		LSystem.load(2);
 	}else if (GetAsyncKeyState(0x72) & 0x8000f){ // F3
 		LSystem.load(3);
@@ -669,7 +691,37 @@ bool rtvsD3dApp::updateKeyboard ()
 	}else{
 		space_pressed = false;
 	}
-		return true;
+	if (GetAsyncKeyState(0x57) & 0x8000f){ // w
+		w_pressed = true;
+	}else{
+		w_pressed = false;
+	}
+	if (GetAsyncKeyState(0x41) & 0x8000f){ // a
+		a_pressed = true;
+	}else{
+		a_pressed = false;
+	}	
+	if (GetAsyncKeyState(0x53) & 0x8000f){ // s
+		s_pressed = true;
+	}else{
+		s_pressed = false;
+	}	
+	if (GetAsyncKeyState(0x44) & 0x8000f){ // d
+		d_pressed = true;
+	}else{
+		d_pressed = false;
+	}	
+	if (GetAsyncKeyState(0x51) & 0x8000f){ // q
+		q_pressed = true;
+	}else{
+		q_pressed = false;
+	}	
+	if (GetAsyncKeyState(0x45) & 0x8000f){ // e
+		e_pressed = true;
+	}else{
+		e_pressed = false;
+	}	
+	return true;
 }
 
 

@@ -1,4 +1,4 @@
-﻿Build started 16/12/2012 20:50:51.
+﻿Build started 16/12/2012 22:27:17.
      1>Project "C:\Users\James\Documents\GitHub\JGamlin-L-System\rtvsD3dApp.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Debug\rtvsD3dApp.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -11,8 +11,8 @@
      1>c:\users\james\documents\github\jgamlin-l-system\header\l_system.h(171): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>c:\users\james\documents\github\jgamlin-l-system\header\l_system.h(178): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>c:\users\james\documents\github\jgamlin-l-system\header\l_system.h(185): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\james\documents\github\jgamlin-l-system\source\rtvsd3dapp.cpp(325): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\james\documents\github\jgamlin-l-system\source\rtvsd3dapp.cpp(332): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\james\documents\github\jgamlin-l-system\source\rtvsd3dapp.cpp(324): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\james\documents\github\jgamlin-l-system\source\rtvsd3dapp.cpp(331): warning C4018: '<' : signed/unsigned mismatch
        ResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -33,4 +33,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.52
+Time Elapsed 00:00:02.40
