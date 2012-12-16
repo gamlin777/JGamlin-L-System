@@ -22,7 +22,6 @@
 #include <vector>
 #include <stack>
 using namespace std;
-#include <iostream>
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -262,7 +261,6 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 			float length = LSystem.getLength();
 			float angle = rdn*LSystem.getTurnValue();
 			float current_angle = 0.0f; // for the initial straight line
-			string rule = axiom; // initialized as axiom, which is 'F'
 			
 
 			float sin_angle = sin(current_angle);
@@ -272,8 +270,6 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 			int max_iterations = 0;
 			int default_iterations = LSystem.getIterations();
 			int current_iteration = 0;
-			int size = rule.length();
-			string new_rule = LSystem.getRule();
 
 			
 			if (currentKeyClicked == 1){
@@ -321,8 +317,6 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 					max_iterations = 9;
 				}
 			}
-			size = rule.length();
-			// Production Rules
 			
 		for (current_iteration = 0; current_iteration < max_iterations; ++current_iteration){
 			for (int i = str.length() - 1; i >= 0; --i){
