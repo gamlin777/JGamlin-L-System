@@ -81,6 +81,15 @@ public:
 	float					fSpinX;
 	float					fSpinY;
 	char*					vectorName;
+	bool					z_pressed;
+	bool					x_pressed;
+	float					length;
+	bool					ctrl_pressed;
+	bool					shift_pressed;
+	float					angle;
+	bool					space_pressed;
+	float					rdn;
+	float					reset_angle;
 
 	// ---- methods ----
 

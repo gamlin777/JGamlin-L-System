@@ -52,7 +52,9 @@ rtvsD3dApp::rtvsD3dApp (int id)
 	LSystem = L_System();
 	// key clicked
 	currentKeyClicked = 0;
-
+	length = 0.1f;
+	rdn = 3.141592f / 180.0f;
+	angle = rdn*LSystem.getTurnValue();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -223,8 +225,9 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 
 
 		// draw a line rotating around the z axis
+		
 		Vertex s, e;
-		float rdn = 3.141592f / 180.0f;
+		reset_angle = LSystem.TURN_VALUE*rdn;
 		
 		stack <Vector3D> mainpos;
 		stack <float> anglepos;
@@ -257,15 +260,13 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 			
 			// update start and end vertex
 
-			float length = 0.1f;
-			float angle = rdn*LSystem.getTurnValue();
-			float current_angle = 0.0f; // for the initial straight line
 			
-
+			
+			float current_angle = 0.0f; // for the initial straight line
 			float sin_angle = sin(current_angle);
 			float cos_angle = cos(current_angle);
 			Vector3D direction = Vector3D(sin_angle*length, cos_angle*length,0);
-			Vector3D currentpos = Vector3D(0,0,0);
+			Vector3D currentpos = Vector3D(0,-6,0);
 			int max_iterations = LSystem.getIterations();
 			int default_iterations = LSystem.getIterations();
 
@@ -314,6 +315,9 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 				if (9 <= default_iterations){
 					max_iterations = 9;
 				}
+			}
+			if (currentKeyClicked == 0){
+					max_iterations = 0;
 			}
 			
 		for (int k = 0; k < max_iterations; ++k){
@@ -382,7 +386,24 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 			// pd3dDevice->DrawPrimitive( D3DPT_LINELIST, 0, 1 );
 			// updateVertexBuffer(s, e);
 
-				
+		
+		//manipulation of the l_system
+		if (z_pressed == true){
+			length += 0.001f;
+		}
+		if (x_pressed == true){
+			length -= 0.001f;
+		}
+		if (shift_pressed == true){
+			angle += 0.1f;
+		}
+		if (ctrl_pressed == true){
+			angle -= 0.1f;
+		}
+		if (space_pressed == true){
+			angle = reset_angle;
+		}
+
 	} // if lines
 
 	return true;
@@ -610,20 +631,45 @@ bool rtvsD3dApp::updateKeyboard ()
 		currentKeyClicked = 9;
 	else if(GetAsyncKeyState('0') & 0x8000f)
 		currentKeyClicked = 0;		
-	else if (GetAsyncKeyState(0x70) & 0x8000f) // F1
+	if (GetAsyncKeyState(0x70) & 0x8000f){ // F1
 		LSystem.load(1);
-	else if (GetAsyncKeyState(0x71) & 0x8000f) // F2
+	} else if (GetAsyncKeyState(0x71) & 0x8000f){ // F2
 		LSystem.load(2);
-	else if (GetAsyncKeyState(0x72) & 0x8000f) // F3
+	}else if (GetAsyncKeyState(0x72) & 0x8000f){ // F3
 		LSystem.load(3);
-	else if (GetAsyncKeyState(0x73) & 0x8000f) // F4
+	}else if (GetAsyncKeyState(0x73) & 0x8000f){ // F4
 		LSystem.load(4);
-	else if (GetAsyncKeyState(0x74) & 0x8000f) // F5
+	}else if (GetAsyncKeyState(0x74) & 0x8000f){ // F5
 		LSystem.load(5);
-	else if (GetAsyncKeyState(0x75) & 0x8000f) // F6
+	}else if (GetAsyncKeyState(0x75) & 0x8000f){ // F6
 		LSystem.load(6);
-
-	return true;
+	}
+	if (GetAsyncKeyState(0x5A) & 0x8000f){ // z
+		z_pressed = true;
+	}else{
+		z_pressed = false;
+	}
+	if (GetAsyncKeyState(0x58) & 0x8000f){ // x
+		x_pressed = true;
+    }else{
+		x_pressed = false;
+	}
+	if (GetAsyncKeyState(0x10) & 0x8000f){ // shift
+		shift_pressed = true;
+	}else{
+		shift_pressed = false;
+	}
+	if (GetAsyncKeyState(0x11) & 0x8000f){ // ctrl
+		ctrl_pressed = true;
+	}else{
+		ctrl_pressed = false;
+	}
+	if (GetAsyncKeyState(0x20) & 0x8000f){ // SPACEBAR
+		space_pressed = true;
+	}else{
+		space_pressed = false;
+	}
+		return true;
 }
 
 
