@@ -223,7 +223,6 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 
 
 		// draw a line rotating around the z axis
-		LSystem = L_System();
 		Vertex s, e;
 		float rdn = 3.141592f / 180.0f;
 		
@@ -258,7 +257,7 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 			
 			// update start and end vertex
 
-			float length = LSystem.getLength();
+			float length = 0.1f;
 			float angle = rdn*LSystem.getTurnValue();
 			float current_angle = 0.0f; // for the initial straight line
 			
@@ -267,9 +266,8 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 			float cos_angle = cos(current_angle);
 			Vector3D direction = Vector3D(sin_angle*length, cos_angle*length,0);
 			Vector3D currentpos = Vector3D(0,0,0);
-			int max_iterations = 0;
+			int max_iterations = LSystem.getIterations();
 			int default_iterations = LSystem.getIterations();
-			int current_iteration = 0;
 
 			
 			if (currentKeyClicked == 1){
@@ -318,7 +316,7 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 				}
 			}
 			
-		for (current_iteration = 0; current_iteration < max_iterations; ++current_iteration){
+		for (int k = 0; k < max_iterations; ++k){
 			for (int i = str.length() - 1; i >= 0; --i){
 				for (int j = 0; j < rList.size(); j++){
 					if (str[i] == *rList[j].from){
@@ -611,12 +609,20 @@ bool rtvsD3dApp::updateKeyboard ()
 	else if(GetAsyncKeyState('9') & 0x8000f)
 		currentKeyClicked = 9;
 	else if(GetAsyncKeyState('0') & 0x8000f)
-		currentKeyClicked = 0;
-	else if (GetAsyncKeyState(0x41) & 0x8000f)
-		currentKeyClicked = 0x41;
-	else if (GetAsyncKeyState('e') & 0x8000f)
-		currentKeyClicked = 'e';			
-	// ok
+		currentKeyClicked = 0;		
+	else if (GetAsyncKeyState(0x70) & 0x8000f) // F1
+		LSystem.load(1);
+	else if (GetAsyncKeyState(0x71) & 0x8000f) // F2
+		LSystem.load(2);
+	else if (GetAsyncKeyState(0x72) & 0x8000f) // F3
+		LSystem.load(3);
+	else if (GetAsyncKeyState(0x73) & 0x8000f) // F4
+		LSystem.load(4);
+	else if (GetAsyncKeyState(0x74) & 0x8000f) // F5
+		LSystem.load(5);
+	else if (GetAsyncKeyState(0x75) & 0x8000f) // F6
+		LSystem.load(6);
+
 	return true;
 }
 

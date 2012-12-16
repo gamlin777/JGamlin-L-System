@@ -110,7 +110,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 
 	// create window
     g_hWnd = CreateWindowEx( NULL, winClassName, 
-                             "Application Framework Demo",
+                             "L-System by James Gamlin",
                              WS_OVERLAPPEDWINDOW | WS_VISIBLE,
                              0, 0, 1200, 800, NULL, NULL, hInstance, NULL );
 
