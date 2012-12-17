@@ -60,7 +60,7 @@ class rtvsD3dApp
 {
 
 	// ---- properties ----
-	L_System LSystem;
+	L_System LSystem; // Linking the class to the rest of the program
 
 	DWORD	_id;
 
@@ -69,7 +69,7 @@ public:
 
 
 	// ---- properties ----
-
+	// And global variables
 	ID3DXFont*				pFont;
 	D3DCOLOR				fontCol;
 	LPDIRECT3DVERTEXBUFFER9	pVertexBuffer;

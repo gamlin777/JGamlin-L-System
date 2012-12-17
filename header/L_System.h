@@ -20,7 +20,51 @@ public:
 	string AXIOM;
 	string NODE;
 	string NODE_RULE;
+
+	// the following strings are used to to record the data from the config files.
+	string ex6_line1_it;
+	string ex6_line2_ang;
+	string ex6_line3_ax;
+	string ex6_line4_r1;
+	string ex6_line5_n;
+	string ex6_line6_r2;
+
+	string ex5_line1_it;
+	string ex5_line2_ang;
+	string ex5_line3_ax;
+	string ex5_line4_r1;
+	string ex5_line5_n;
+	string ex5_line6_r2;
 	
+	string ex4_line1_it;
+	string ex4_line2_ang;
+	string ex4_line3_ax;
+	string ex4_line4_r1;
+	string ex4_line5_n;
+	string ex4_line6_r2;
+
+	string ex3_line1_it;
+	string ex3_line2_ang;
+	string ex3_line3_ax;
+	string ex3_line4_r1;
+	string ex3_line5_n;
+	string ex3_line6_r2;
+
+	string ex2_line1_it;
+	string ex2_line2_ang;
+	string ex2_line3_ax;
+	string ex2_line4_r1;
+	string ex2_line5_n;
+	string ex2_line6_r2;
+
+	string ex1_line1_it;
+	string ex1_line2_ang;
+	string ex1_line3_ax;
+	string ex1_line4_r1;
+	string ex1_line5_n;
+	string ex1_line6_r2;
+
+
 float getTurnValue() { return TURN_VALUE; }
 int getIterations() { return DEFAULT_ITERATIONS; }
 string getRule() { return RULE; }
@@ -29,24 +73,10 @@ string getNode() { return NODE; }
 string getNodeRule() { return NODE_RULE; }
 	
 L_System(){ //Contructor
-
-	load(1);
-	};
-
-	void load(int lsFile)
-	{
-		ifstream ifile;
-		lsFileKey = lsFile;
+	ifstream ifile;
 
 			//Collects all the data from the config files
 			ifile.open("config/example1.txt");
-			string ex1_line1_it;
-			string ex1_line2_ang;
-			string ex1_line3_ax;
-			string ex1_line4_r1;
-			string ex1_line5_n;
-			string ex1_line6_r2;
-
 
 			getline(ifile, ex1_line1_it);
 			getline(ifile, ex1_line2_ang);
@@ -58,13 +88,6 @@ L_System(){ //Contructor
 			ifile.close();
 
 			ifile.open("config/example2.txt");
-			string ex2_line1_it;
-			string ex2_line2_ang;
-			string ex2_line3_ax;
-			string ex2_line4_r1;
-			string ex2_line5_n;
-			string ex2_line6_r2;
-
 
 			getline(ifile, ex2_line1_it);
 			getline(ifile, ex2_line2_ang);
@@ -76,13 +99,6 @@ L_System(){ //Contructor
 			ifile.close();
 
 			ifile.open("config/example3.txt");
-			string ex3_line1_it;
-			string ex3_line2_ang;
-			string ex3_line3_ax;
-			string ex3_line4_r1;
-			string ex3_line5_n;
-			string ex3_line6_r2;
-
 
 			getline(ifile, ex3_line1_it);
 			getline(ifile, ex3_line2_ang);
@@ -94,12 +110,6 @@ L_System(){ //Contructor
 			ifile.close();
 
 			ifile.open("config/example4.txt");
-			string ex4_line1_it;
-			string ex4_line2_ang;
-			string ex4_line3_ax;
-			string ex4_line4_r1;
-			string ex4_line5_n;
-			string ex4_line6_r2;
 
 			getline(ifile, ex4_line1_it);
 			getline(ifile, ex4_line2_ang);
@@ -111,13 +121,6 @@ L_System(){ //Contructor
 			ifile.close();
 
 			ifile.open("config/example5.txt");
-			string ex5_line1_it;
-			string ex5_line2_ang;
-			string ex5_line3_ax;
-			string ex5_line4_r1;
-			string ex5_line5_n;
-			string ex5_line6_r2;
-
 
 			getline(ifile, ex5_line1_it);
 			getline(ifile, ex5_line2_ang);
@@ -129,13 +132,6 @@ L_System(){ //Contructor
 			ifile.close();
 
 			ifile.open("config/example6.txt");
-			string ex6_line1_it;
-			string ex6_line2_ang;
-			string ex6_line3_ax;
-			string ex6_line4_r1;
-			string ex6_line5_n;
-			string ex6_line6_r2;
-
 
 			getline(ifile, ex6_line1_it);
 			getline(ifile, ex6_line2_ang);
@@ -144,6 +140,13 @@ L_System(){ //Contructor
 			getline(ifile, ex6_line5_n);
 			getline(ifile, ex6_line6_r2);
 
+			ifile.close();
+	load(1);
+	};
+
+	void load(int lsFile)
+	{
+		lsFileKey = lsFile;
 	// depending on the current F-Key pressed, it will change the lsystem
 			if (lsFileKey == 1){
 				DEFAULT_ITERATIONS = ::atoi(ex1_line1_it.c_str());

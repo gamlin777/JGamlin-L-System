@@ -45,20 +45,22 @@ rtvsD3dApp::rtvsD3dApp (int id)
 {
 
 	// initialise
-    ZeroMemory( this, sizeof(rtvsD3dApp) ); // Comment out later
+    ZeroMemory( this, sizeof(rtvsD3dApp) );
 
 	// store id
 	_id = id;
 	LSystem = L_System();
 	// key clicked
 	currentKeyClicked = 5;
+	// initializing modifiable parameters
 	length = 0.06f;
 	rdn = 3.141592f / 180.0f;
 	angle = rdn*LSystem.getTurnValue();
 	ls_transX = 0.0f;
 	ls_transY = 0.0f;
 	ls_transZ = 20.0f;
-	vectorName = "A Simple L-System by James Gamlin\n__________________________________\n              Controls:\nCycle Iterations(Growth)= Number Keys \n      n.b for the Axiom/Origin press Zero\nChange L-System(Plant) = F1 to F6\nMove Around = W,A,S,D\nZoom In/Out = Q/E \nIncrease/Decrease Branch Angle = Shift/Ctrl\nIncrease/Decrease Branch Size = Z/X\nFree Transform(Irreversible) = Mouse\n       Reset = SPACEBAR\n__________________________________";
+	//text output to screen
+	vectorName = "A Simple L-System by James Gamlin\n__________________________________\n                   Controls:\nCycle Iterations(Growth)= Number Keys \n      n.b for the Axiom/Origin press Zero\nChange L-System(Plant) = F1 to F6\nMove Around = W,A,S,D\nZoom In/Out = Q/E \nIncrease/Decrease Branch Angle = Shift/Ctrl\nIncrease/Decrease Branch Size = Z/X\nFree Translate(Irreversible) = Mouse\n       Reset = SPACEBAR\n__________________________________";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -226,19 +228,21 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 
 		
 		Vertex s, e;
-		reset_angle = LSystem.TURN_VALUE*rdn;
+		reset_angle = LSystem.TURN_VALUE*rdn; //for the reset button
+		
 		
 		stack <Vector3D> mainpos;
 		stack <float> anglepos;
 		
 		string axiom = LSystem.getAxiom();
-		string str = axiom;
+		string str = axiom; // the main string for holding the re-written production rules
 		char *c_axiom;
 		c_axiom = &axiom[0];
 		string node = LSystem.getNode();
 		char *c_node;
 		c_node = &node[0];
 		
+		// handling the rules
 		struct Rule
 		{
 			char from[1];
@@ -257,19 +261,15 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 		rList.push_back(r2);
 
 			
-			// update start and end vertex
-
-			
-			
-			float current_angle = 0.0f; // for the initial straight line
+			float current_angle = 0.0f; // initialized as 0.0f for the initial straight line
 			float sin_angle = sin(current_angle);
 			float cos_angle = cos(current_angle);
 			Vector3D direction = Vector3D(sin_angle*length, cos_angle*length,0);
 			Vector3D currentpos = Vector3D(4,-7,0);
-			int max_iterations = LSystem.getIterations();
-			int default_iterations = LSystem.getIterations();
+			int max_iterations = LSystem.getIterations(); // is set up as maximum for demo purposes, but can be changed to show different iterations
+			int default_iterations = LSystem.getIterations(); // is specific to each L-system example
 
-			
+			//Handles the iteration selection
 			if (currentKeyClicked == 1){
 				if (1 <= default_iterations){
 					max_iterations = 1;
@@ -318,7 +318,7 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 			if (currentKeyClicked == 0){
 					max_iterations = 0;
 			}
-			
+		// Generates the productions rules each frame
 		for (int k = 0; k < max_iterations; ++k){
 			for (int i = str.length() - 1; i >= 0; --i){
 				for (int j = 0; j < rList.size(); j++){
@@ -328,6 +328,7 @@ bool rtvsD3dApp::display (LPDIRECT3DDEVICE9 pd3dDevice)
 				}
 			}
 		}
+		//Generating the lines based on the production characters
 		for (int i = 0; i < str.length(); i++){
 			if (str[i] == 'F'){
 						s.x = currentpos.x;
@@ -561,7 +562,7 @@ bool rtvsD3dApp::setupDX (LPDIRECT3DDEVICE9 pd3dDevice)
 		OUT_DEFAULT_PRECIS,				// how precisely the output must match the font
 		ANTIALIASED_QUALITY,			// ANTIALIASED_QUALITY, DEFAULT_QUALITY, DRAFT_QUALITY, and PROOF_QUALITY
 		DEFAULT_PITCH | FF_DONTCARE,	// font pitch 
-		"Narkisim",					// name of the required font or "" for system best match
+		"Verdana",					// name of the required font or "" for system best match
 		&pFont);
 
 
